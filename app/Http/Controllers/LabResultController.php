@@ -85,16 +85,12 @@ class LabResultController extends Controller
         if ($get_file->isEmpty()) {
             return back()->with('error', 'Data Not Found!');
         }
-
-        // Get file content
-        $file_content = file_get_contents('storage/lab_results/'.$get_file[0]['lab_result']);
-
+        
         // Decrypt file content
-        $decrypted = Crypt::decrypt($file_content);
+        $decrypted = Crypt::decrypt(Storage::get('public/lab_results/'.$get_file[0]['lab_result']));
 
-        // Open file info and get the file type
-        $f          = finfo_open();
-        $mime_type  = finfo_buffer($f, $decrypted, FILEINFO_MIME_TYPE);
+        // Get file type
+        $mime_type  = Storage::mimeType('public/lab_results/'.$get_file[0]['lab_result']);
 
         return view('layouts.show_file', ['file' => $decrypted, 'type' => $mime_type]);
     }
