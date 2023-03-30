@@ -69,15 +69,11 @@ class RecommendationController extends Controller
             return back()->with('error', 'Data Not Found!');
         }
 
-        // Get file content
-        $file_content = file_get_contents('storage/recommendations/'.$get_file[0]['recommendation']);
-
         // Decrypt file content
-        $decrypted = Crypt::decrypt($file_content);
+        $decrypted = Crypt::decrypt(Storage::get('public/recommendations/'.$get_file[0]['recommendation']));
 
-        // Open file info and get the file type
-        $f          = finfo_open();
-        $mime_type  = finfo_buffer($f, $decrypted, FILEINFO_MIME_TYPE);
+        // Get file type
+        $mime_type  = Storage::mimeType('public/recommendations/'.$get_file[0]['recommendation']);
 
         return view('layouts.show_file', ['file' => $decrypted, 'type' => $mime_type]);
     }

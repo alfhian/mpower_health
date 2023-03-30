@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Crypt;
 
 use App\Models\LogManagement;
@@ -61,9 +62,8 @@ class Recommendation extends Model
 
     public static function convert($file)
     {
-        $file_content = file_get_contents('storage/recommendations/'.$file);
-
-        $decrypted = Crypt::decrypt($file_content);
+        // Decrypt file content
+        $decrypted = Crypt::decrypt(Storage::get('public/recommendations/'.$file));
 
         return $decrypted;
     }
