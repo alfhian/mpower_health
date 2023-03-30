@@ -52,7 +52,7 @@ class RecommendationController extends Controller
 
     public function showFile($file) {
         $id = $this->hash->decode($file);
-
+        
         // Save Log
         $log_data   = \Location::get();
         $log_detail = [

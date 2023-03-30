@@ -82,7 +82,7 @@
                                         <img src="{{ asset('img/profileicons/pdf_icon.png') }}" alt="pdf icon"
                                             width="50px">
                                         <div class="card-title mt-3">
-                                            <a href="{{ url('lab_result/show_file/' . $hashids->encode($row->lab_result_id)) }}" target="_blank"
+                                            <a href="{{ url('lab_result/show_file/' . $hashids->encode($row->lab_result_id)) }}"
                                                 class="text-decoration-none">
                                                 <h6 class="redhat text-purple">
                                                     <b>#{{ $row->lab_result_no }}</b>
@@ -130,14 +130,14 @@
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td><a href="{{ url('lab_result/show_file/' . $hashids->encode($row->id)) }}"
-                                                target="_blank">#{{ $row->lab_result_no }}</a></td>
+                                                >#{{ $row->lab_result_no }}</a></td>
                                         <td>{{ $row->upload_date }}</td>
                                         <td>
                                             @if ($row->recommendation_id == null)
                                                 -
                                             @else
                                                 <a href="{{ url('recommendation/show_file/' . $hashids->encode($row->recommendation_id)) }}"
-                                                    target="_blank">Recommendation
+                                                    >Recommendation
                                                     link</a>
                                             @endif
                                         </td>

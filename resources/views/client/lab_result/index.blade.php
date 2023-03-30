@@ -75,14 +75,14 @@
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
                                         <td><a href="{{ url('lab_result/show_file/' . $hashids->encode($row->id)) }}"
-                                                target="_blank">#{{ $row->lab_result_no }}</a></td>
+                                                >#{{ $row->lab_result_no }}</a></td>
                                         <td>{{ $row->upload_date }}</td>
                                         <td>
                                             @if ($row->recommendation_id == null)
                                                 -
                                             @else
-                                                <a href="{{ url('recommendation/show_file/' . $row->recommendation) }}"
-                                                    target="_blank">Recommendation
+                                                <a href="{{ url('recommendation/show_file/' . $hashids->encode($row->recommendation_id)) }}"
+                                                    >Recommendation
                                                     link</a>
                                             @endif
                                         </td>

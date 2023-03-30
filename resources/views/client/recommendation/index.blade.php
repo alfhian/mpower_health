@@ -27,7 +27,7 @@
                                                 width="50px">
                                             <div class="card-title mt-3">
                                                 <a href="{{ url('lab_result/show_file/' . $hashids->encode($row->lab_result_id)) }}"
-                                                    target="_blank" class="text-decoration-none">
+                                                    class="text-decoration-none">
                                                     <h6 class="redhat text-purple"><b>#{{ $row->lab_result_no }}</b></h6>
                                                 </a>
                                             </div>
