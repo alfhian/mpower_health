@@ -3,7 +3,9 @@ var upperStat = 0
 var numberStat = 0
 var specialStat = 0
 var lengthStat = 0
-var confirmStat = 0
+var pswConfirmStat = 0
+var emailConfirmStat = 0
+var phoneConfirmStat = 0
 var emailStat = 0
 var pswInput = document.getElementById("password")
 var pswConfirmation = document.getElementById("password_confirmation")
@@ -15,12 +17,30 @@ var length = document.getElementById("length")
 var firstname = document.getElementById("firstname")
 var lastname = document.getElementById("lastname")
 var birthdate = document.getElementById("birthdate")
+var mothersname = document.getElementById("mothers_name")
 var email = document.getElementById("email_registration")
+var emailConfirmation = document.getElementById("email_confirmation")
 var phone = document.getElementById("phone_number")
+var phoneConfirmation = document.getElementById("phone_number_confirmation")
 var street = document.getElementById("street_address")
 var city = document.getElementById("city")
 var postal = document.getElementById("postal_code")
 var country = document.getElementById("country")
+
+emailConfirmation.onpaste = e => {
+    e.preventDefault();
+    return false;
+};
+
+phoneConfirmation.onpaste = e => {
+    e.preventDefault();
+    return false;
+};
+
+pswConfirmation.onpaste = e => {
+    e.preventDefault();
+    return false;
+};
 
 $('#psw-tooltip').click(function () {
     $('[data-bs-toggle="tooltip"]').tooltip('show')
@@ -32,16 +52,20 @@ $('#psw-tooltip').focusout(function () {
 
 
 //  Remove error message
-$('#firstname, #lastname, #birthdate, #email_registration, #password, #phone_number, #street_address, #city, #postal_code').keyup(function () {
+$('#firstname, #lastname, #mothers_name, #birthdate, #email_registration, #password, #phone_number, #street_address, #city, #postal_code').keyup(function () {
     if ($(this).val() != '') {
         if ($(this).attr('id') == 'firstname') {
             textOnly('firstname', 'First name')
         } else if ($(this).attr('id') == 'lastname') {
             textOnly('lastname', 'Last name')
+        } else if ($(this).attr('id') == 'mothers_name') {
+            textOnly('mothers_name', 'Mother\'s name')
         } else if ($(this).attr('id') == 'phone_number') {
             numberOnly('phone_number', 'Phone number')
+            $('#phone_number_group').css('border', '1px solid #ced4da')
         } else if ($(this).attr('id') == 'password') {
             $(this).parent().parent().next().hide()
+            $('#password_group').css('border', '1px solid #ced4da')
         } else if ($(this).attr('id') == 'email_registration') {
             $(this).css('border', '1px solid #ced4da')
             $(this).next().hide()
@@ -75,6 +99,17 @@ email.onkeyup = function () {
         emailStat = 1
     } else {
         emailStat = 0
+    }
+
+    if (email.value != emailConfirmation.value) {
+        emailConfirmStat = 0
+        $('#email_confirmation').css('border', '1px solid red')
+        $('#emailconfirm_message span').html('Email do not match')
+        $('#emailconfirm_message').show()
+    } else {
+        emailConfirmStat = 1
+        $('#email_confirmation').css('border', '1px solid #ced4da')
+        $('#emailconfirm_message').hide()
     }
 }
 
@@ -145,10 +180,13 @@ pswInput.onkeyup = function () {
     }
 
     if (pswInput.value != pswConfirmation.value) {
-        confirmStat = 0
+        pswConfirmStat = 0
+        $('#password_confirmation_group').css('border', '1px solid red')
+        $('#pswconfirm_message span').html('Password do not match')
         $('#pswconfirm_message').show()
     } else {
-        confirmStat = 1
+        pswConfirmStat = 1
+        $('#password_confirmation_group').css('border', '1px solid #ced4da')
         $('#pswconfirm_message').hide()
     }
 }
@@ -157,11 +195,56 @@ pswInput.onkeyup = function () {
 // Password Confirmation match validation
 pswConfirmation.onkeyup = function () {
     if (pswInput.value != pswConfirmation.value) {
-        confirmStat = 0
+        pswConfirmStat = 0
+        $('#password_confirmation_group').css('border', '1px solid red')
+        $('#pswconfirm_message span').html('Password do not match')
         $('#pswconfirm_message').show()
     } else {
-        confirmStat = 1
+        pswConfirmStat = 1
+        $('#password_confirmation_group').css('border', '1px solid #ced4da')
         $('#pswconfirm_message').hide()
+    }
+}
+
+// Email Confirmation match validation
+emailConfirmation.onkeyup = function () {
+    if (email.value != emailConfirmation.value) {
+        emailConfirmStat = 0
+        $('#email_confirmation').css('border', '1px solid red')
+        $('#emailconfirm_message span').html('Email do not match')
+        $('#emailconfirm_message').show()
+    } else {
+        emailConfirmStat = 1
+        $('#email_confirmation').css('border', '1px solid #ced4da')
+        $('#emailconfirm_message').hide()
+    }
+}
+
+
+// Phone Number Confirmation match validation
+phoneConfirmation.onkeyup = function () {
+    if (phone.value != phoneConfirmation.value) {
+        phoneConfirmStat = 0
+        $('#phone_confirmation_group').css('border', '1px solid red')
+        $('#phoneconfirm_message span').html('Phone number do not match')
+        $('#phoneconfirm_message').show()
+    } else {
+        phoneConfirmStat = 1
+        $('#phone_confirmation_group').css('border', '1px solid #ced4da')
+        $('#phoneconfirm_message').hide()
+    }
+}
+
+phone.onkeyup = function () {
+    if (phone.value != phoneConfirmation.value) {
+        phoneConfirmStat = 0
+        $('#phone_confirmation_group').css('border', '1px solid red')
+        $('#phoneconfirm_message span').html('Phone number do not match')
+        $('#phoneconfirm_message').show()
+    } else {
+        phoneConfirmStat = 1
+        $('#phone_confirmation_group').css('border', '1px solid #ced4da')
+        $('#phoneconfirm_message').hide()
     }
 }
 
@@ -203,9 +286,71 @@ $('#button-visible2').click(function () {
 })
 
 
+// Terms and Conditions check 
+$('#terms-button').click(function () {
+    if (!$('#terms-check').is(':checked')) {
+        var today = new Date();
+        var date = today.getFullYear()+'-'+(today.getMonth()+1).toString().padStart(2, 0)+'-'+today.getDate().toString().padStart(2, 0);
+        var time = today.getHours().toString().padStart(2, 0) + ":" + today.getMinutes().toString().padStart(2, 0) + ":" + today.getSeconds().toString().padStart(2, 0);
+        var dateTime = date+' '+time;
+        $('#terms-date').val(dateTime)
+        $('#terms_message').hide()
+    }
+    $('#terms-check').prop('checked', true)
+})
+
+$('#policy-button').click(function () {
+    if (!$('#policy-check').is(':checked')) {
+        var today = new Date();
+        var date = today.getFullYear()+'-'+(today.getMonth()+1).toString().padStart(2, 0)+'-'+today.getDate().toString().padStart(2, 0);
+        var time = today.getHours().toString().padStart(2, 0) + ":" + today.getMinutes().toString().padStart(2, 0) + ":" + today.getSeconds().toString().padStart(2, 0);
+        var dateTime = date+' '+time;
+        $('#policy-date').val(dateTime)
+        $('#policy_message').hide()
+    }
+    $('#policy-check').prop('checked', true)
+})
+
+
+// Terms checked
+$('#terms-check').change(function(){
+    if ($('#terms-check').is(':checked')) {
+        var today = new Date();
+        var date = today.getFullYear()+'-'+(today.getMonth()+1).toString().padStart(2, 0)+'-'+today.getDate().toString().padStart(2, 0);
+        var time = today.getHours().toString().padStart(2, 0) + ":" + today.getMinutes().toString().padStart(2, 0) + ":" + today.getSeconds().toString().padStart(2, 0);
+        var dateTime = date+' '+time;
+        $('#terms-date').val(dateTime)
+        $('#terms_message').hide()
+    }
+})
+
+// Policy checked
+$('#policy-check').change(function(){
+    if ($('#policy-check').is(':checked')) {
+        var today = new Date();
+        var date = today.getFullYear()+'-'+(today.getMonth()+1).toString().padStart(2, 0)+'-'+today.getDate().toString().padStart(2, 0);
+        var time = today.getHours().toString().padStart(2, 0) + ":" + today.getMinutes().toString().padStart(2, 0) + ":" + today.getSeconds().toString().padStart(2, 0);
+        var dateTime = date+' '+time;
+        $('#policy-date').val(dateTime)
+        $('#policy_message').hide()
+    }
+})
+
+// Marketing checked
+$('#marketing-check').change(function(){
+    if ($('#marketing-check').is(':checked')) {
+        var today = new Date();
+        var date = today.getFullYear()+'-'+(today.getMonth()+1).toString().padStart(2, 0)+'-'+today.getDate().toString().padStart(2, 0);
+        var time = today.getHours().toString().padStart(2, 0) + ":" + today.getMinutes().toString().padStart(2, 0) + ":" + today.getSeconds().toString().padStart(2, 0);
+        var dateTime = date+' '+time;
+        $('#marketing-date').val(dateTime)
+    }
+})
+
+
 // Register Form validation
 $('#register-form').submit(function () {
-    if (firstname.value == '' || lastname.value == '' || birthdate.value == '' || email.value == '' || pswInput.value == '' || phone.value == '' || street.value == '' || city.value == '' || postal.value == '' || country.value == '' || emailStat == 0) {
+    if (firstname.value == '' || lastname.value == '' || birthdate.value == '' || email.value == '' || pswInput.value == '' || phone.value == '' || mothersname.value == '' || street.value == '' || city.value == '' || postal.value == '' || country.value == '' || emailStat == 0 || emailConfirmation.value == '' || phoneConfirmation == '' || pswConfirmation.value == '') {
         if (firstname.value == '') {
             $('#firstname').css('border', '1px solid red')
             $('#firstname_message span').html('Please fill out the firstname')
@@ -225,21 +370,41 @@ $('#register-form').submit(function () {
             $('#email_registration').css('border', '1px solid red')
             $('#email_registration_message span').html('Please fill out the email')
             $('#email_registration_message').show()
-        } else if (emailStat == 0) {
+        }
+        if (emailStat == 0) {
             $('#email_registration').css('border', '1px solid red')
             $('#email_registration_message span').html('Please input a valid email address')
             $('#email_registration_message').show()
         }
-
+        if (emailConfirmation.value == '') {
+            $('#email_confirmation').css('border', '1px solid red')
+            $('#emailconfirm_message span').html('Please fill out the email confirmation')
+            $('#emailconfirm_message').show()
+        }
         if (pswInput.value == '') {
-            $('#password').css('border', '1px solid red')
+            $('#password_group').css('border', '1px solid red')
             $('#password_message span').html('Please fill out the password')
             $('#password_message').show()
         }
+        if (pswConfirmation.value == '') {
+            $('#password_confirmation_group').css('border', '1px solid red')
+            $('#pswconfirm_message span').html('Please fill out the password confirmation')
+            $('#pswconfirm_message').show()
+        }
         if (phone.value == '') {
-            $('#phone_number').css('border', '1px solid red')
+            $('#phone_number_group').css('border', '1px solid red')
             $('#phone_number_message span').html('Please fill out the phone number')
             $('#phone_number_message').show()
+        }
+        if (phoneConfirmation.value == '') {
+            $('#phone_confirmation_group').css('border', '1px solid red')
+            $('#phoneconfirm_message span').html('Please fill out the phone number confirmation')
+            $('#phoneconfirm_message').show()
+        }
+        if (mothersname.value == '') {
+            $('#mothers_name').css('border', '1px solid red')
+            $('#mothers_name_message span').html('Please fill out the mother maiden name')
+            $('#mothers_name_message').show()
         }
         if (street.value == '') {
             $('#street_address').css('border', '1px solid red')
@@ -269,17 +434,36 @@ $('#register-form').submit(function () {
         return false
     }
     if (lowerStat == 1 && upperStat == 1 && numberStat == 1 && specialStat == 1 && lengthStat ==
-        1 && confirmStat == 1) {
-        if ($('#policy-check').is(':checked')) {
-            return true
+        1 && pswConfirmStat == 1) {
+        if (emailConfirmStat == 1 && phoneConfirmStat == 1) {
+            if ($('#terms-check').is(':checked') && $('#policy-check').is(':checked')) {
+                return true
+            } else {
+                if(!$('#terms-check').is(':checked')) {
+                    $('#terms_message').show()
+                }
+                if(!$('#policy-check').is(':checked')) {
+                    $('#policy_message').show()
+                }
+                return false
+            }
         } else {
-            warning = 'Please read the <b>T&S</b> and <b>Privacy Policy</b> before submit the registration form'
-            $('#warningModal').modal('show')
-            $('#warning-description').html(warning)
+            if (emailConfirmStat == 0) {
+                $('html, body').animate({
+                    scrollTop: $('#email_confirmation').offset().top - 200
+                }, 'fast')
+            }
+            if (phoneConfirmStat == 0) {
+                $('html, body').animate({
+                    scrollTop: $('#phone_number_confirmation').offset().top - 200
+                }, 'fast')
+            }
             return false
         }
     } else {
-        $('#password').css('border', '1px solid red')
+        $('#password_group').css('border', '1px solid red')
+        $('#password_message span').html('Please follow the password rules')
+        $('#password_message').show()
         $('html, body').animate({
             scrollTop: $('#password').offset().top - 200
         }, 'fast')

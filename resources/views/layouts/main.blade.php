@@ -252,10 +252,10 @@
                         </div>
                         @if (Request::is('lab_result') || Request::is('dashboard'))
                             <a class="w-100 btn btn-sm bg-purple shadow redhat small-text text-white me-2 py-2"
-                                id="terms-check" data-bs-toggle="modal" href="#uploadLabResultModal"><b>OK</b></a>
+                                id="terms-button" data-bs-toggle="modal" href="#uploadLabResultModal"><b>OK</b></a>
                         @else
                             <button class="w-100 btn btn-sm bg-purple shadow redhat small-text text-white me-2 py-2"
-                                id="terms-check" data-bs-dismiss="modal">
+                                id="terms-button" data-bs-dismiss="modal">
                                 <b>OK</b>
                             </button>
                         @endif
@@ -312,10 +312,10 @@
                         </div>
                         @if (Request::is('lab_result') || Request::is('dashboard'))
                             <a class="w-100 btn btn-sm bg-purple shadow redhat small-text text-white me-2 py-2"
-                                id="pp-check" data-bs-toggle="modal" href="#uploadLabResultModal"><b>OK</b></a>
+                                id="policy-button" data-bs-toggle="modal" href="#uploadLabResultModal"><b>OK</b></a>
                         @else
                             <button class="w-100 btn btn-sm bg-purple shadow redhat small-text text-white me-2 py-2"
-                                id="pp-check" data-bs-dismiss="modal">
+                                id="policy-button" data-bs-dismiss="modal">
                                 <b>OK</b>
                             </button>
                         @endif
@@ -363,7 +363,7 @@
 
     @if ($errors->any())
         @if (property_exists(json_decode($errors), 'email'))
-            @if (json_decode($errors)->email[0] != 'The email field is required.' && json_decode($errors)->email[0] != 'The email must be a valid email address.' && json_decode($errors)->email[0] != 'The email has already been taken.' && json_decode($errors)->email[0] != "We can't find a user with that email address.")
+            @if (json_decode($errors)->email[0] == 'These credentials do not match our records.')
                 <script type="text/javascript">
                     $(window).on('load', function() {
                         $('#signInModal').modal('show');

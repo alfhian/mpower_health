@@ -27,6 +27,9 @@ class ClientInformation extends Model
         'state_province'    => 'encrypted',
         'postal_code'       => 'encrypted',
         'country'           => 'encrypted',
+        'terms_agreed'      => 'encrypted',
+        'policy_agreed'     => 'encrypted',
+        'marketing_agreed'  => 'encrypted',
     ];
 
     public static function edit($request)

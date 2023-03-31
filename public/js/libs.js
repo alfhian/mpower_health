@@ -39,25 +39,6 @@ $(window).on('load', function(){
  */
 
 
-// Terms and Conditions check 
-let termStat = 0
-let ppStat = 0
-
-$('#terms-check').click(function () {
-    termStat = 1
-    if (termStat == 1 && ppStat == 1) {
-        $('#policy-check').prop('checked', true)
-    }
-})
-
-$('#pp-check').click(function () {
-    ppStat = 1
-    if (termStat == 1 && ppStat == 1) {
-        $('#policy-check').prop('checked', true)
-    }
-})
-
-
 // Upload Lab Result validation
 let filename = ''
 let ext = ''

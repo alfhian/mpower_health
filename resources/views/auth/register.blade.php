@@ -15,13 +15,13 @@
                                     <label for="firstname" class="form-label text-purple m-0"><b>First Name
                                             <sup>*</sup></b></label>
                                     <input id="firstname" class="form-control form-control-sm input-gray" type="text"
-                                        name="firstname" :value="old('firstname')" required autocomplete="firstname" />
-                                    <div id="firstname_message" class="redhat small-text text-danger spacing-half"
+                                        name="firstname" value="{{ old('firstname') }}" required autocomplete="firstname" />
+                                    <div id="firstname_message" class="redhat med-text text-danger spacing-half"
                                         style="display: none">
                                         <span></span>
                                     </div>
                                     @error('firstname')
-                                        <div class="redhat text-danger small-text mt-1 spacing-1">
+                                        <div class="redhat text-danger med-text mt-1 spacing-1">
                                             <span>{{ json_decode($errors)->firstname[0] }}</span>
                                         </div>
                                     @enderror
@@ -30,13 +30,13 @@
                                     <label for="lastname" class="form-label text-purple m-0"><b>Last Name
                                             <sup>*</sup></b></label>
                                     <input id="lastname" class="form-control form-control-sm input-gray" type="text"
-                                        name="lastname" :value="old('lastname')" required />
-                                    <div id="lastname_message" class="redhat small-text text-danger spacing-half"
+                                        name="lastname" value="{{ old('lastname') }}" required />
+                                    <div id="lastname_message" class="redhat med-text text-danger spacing-half"
                                         style="display: none">
                                         <span></span>
                                     </div>
                                     @error('lastname')
-                                        <div class="redhat text-danger small-text mt-1 spacing-1">
+                                        <div class="redhat text-danger med-text mt-1 spacing-1">
                                             <span>{{ json_decode($errors)->lastname[0] }}</span>
                                         </div>
                                     @enderror
@@ -44,24 +44,84 @@
                             </div>
 
                             <div class="row mb-3">
-                                <div class="col">
+                                <div class="col-6">
                                     <label for="email_registration" class="form-label text-purple m-0"><b>Email Address
                                             <sup>*</sup></b></label>
                                     <input id="email_registration" class="form-control form-control-sm input-gray"
                                         type="email" name="email" required />
-                                    <div id="email_registration_message" class="redhat small-text text-danger spacing-half"
+                                    <div id="email_registration_message" class="redhat med-text text-danger spacing-half"
                                         style="display: none">
                                         <span></span>
                                     </div>
-                                    @if ($errors->any())
-                                        @if (json_decode($errors)->email[0] == 'The email field is required.' ||
-                                                json_decode($errors)->email[0] == 'The email must be a valid email address.' ||
-                                                json_decode($errors)->email[0] == 'The email has already been taken.')
-                                            <div class="redhat text-danger small-text mt-1 spacing-1" id="email-error">
+                                    @error('email')
+                                        @if (json_decode($errors)->email[0] != 'These credentials do not match our records.')
+                                            <div class="redhat text-danger med-text mt-1 spacing-1" id="email-error">
                                                 <span>{{ json_decode($errors)->email[0] }}</span>
                                             </div>
                                         @endif
-                                    @endif
+                                    @enderror
+                                </div>
+                                <div class="col-6">
+                                    <label for="email_confirmation" class="form-label text-purple m-0"><b>Confirm
+                                            Email
+                                            <sup>*</sup></b></label>
+                                    <input id="email_confirmation" class="form-control form-control-sm input-gray"
+                                        type="email" name="email_confirmation" oncopy="return false"
+                                        onpaste="return false" oncut="return false" required />
+                                    <div id="emailconfirm_message" class="redhat med-text text-danger spacing-half"
+                                        style="display: none">
+                                        <span>Email do not match</span>
+                                    </div>
+                                    @error('email_confirmation')
+                                        <div class="redhat text-danger med-text mt-1 spacing-1">
+                                            <span>{{ json_decode($errors)->email_confirmation[0] }}</span>
+                                        </div>
+                                    @enderror
+                                </div>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col-6">
+                                    <label for="phone" class="form-label text-purple m-0"><b>Phone Number
+                                            <sup>*</sup></b></label>
+                                    <div id="phone_number_group" class="input-group input-group-sm"
+                                        style="border-radius: 0.25rem;">
+                                        <span class="input-group-text" id="phone-code-label">+1</span>
+                                        <input id="phone_number" class="float-end form-control form-control-sm input-gray"
+                                            type="text" name="phone_number" id="phone_number"
+                                            value="{{ old('phone_number') }}" size="15" required />
+                                    </div>
+
+                                    <div id="phone_number_message" class="redhat med-text text-danger spacing-half"
+                                        style="display: none">
+                                        <span></span>
+                                    </div>
+                                    @error('phone_number')
+                                        <div class="redhat text-danger med-text mt-1 spacing-1">
+                                            <span>{{ json_decode($errors)->phone_number[0] }}</span>
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="col-6">
+                                    <label for="phone_number_confirmation" class="form-label text-purple m-0"><b>Confirm
+                                            Phone Number
+                                            <sup>*</sup></b></label>
+                                    <div id="phone_confirmation_group" class="input-group input-group-sm"
+                                        style="border-radius: 0.25rem;">
+                                        <span class="input-group-text" id="confirm-phone-code-label">+1</span>
+                                        <input id="phone_number_confirmation"
+                                            class="form-control form-control-sm input-gray" type="text"
+                                            name="phone_number_confirmation" required />
+                                    </div>
+                                    <div id="phoneconfirm_message" class="redhat med-text text-danger spacing-half"
+                                        style="display: none">
+                                        <span>Phone Number do not match</span>
+                                    </div>
+                                    @error('phone_number_confirmation')
+                                        <div class="redhat text-danger med-text mt-1 spacing-1">
+                                            <span>{{ json_decode($errors)->phone_number_confirmation[0] }}</span>
+                                        </div>
+                                    @enderror
                                 </div>
                             </div>
 
@@ -70,7 +130,7 @@
                                     <label for="password" class="form-label text-purple m-0"><b>Password
                                             <sup>*</sup></b></label>
                                     <div class="d-flex align-items-center">
-                                        <div class="input-group pe-2">
+                                        <div id="password_group" class="input-group" style="border-radius: 0.25rem;">
                                             <input id="password" class="form-control form-control-sm input-gray"
                                                 type="password" name="password" aria-describedby="button-visible1"
                                                 title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters"
@@ -85,18 +145,25 @@
                                             </button>
                                         </div>
                                     </div>
-                                    <div id="password_message" class="redhat small-text text-danger spacing-half"
+                                    <div id="password_message" class="redhat med-text text-danger spacing-half"
                                         style="display: none">
                                         <span></span>
                                     </div>
+                                    @error('password')
+                                        <div class="redhat text-danger med-text mt-1 spacing-1">
+                                            <span>{{ json_decode($errors)->password[0] }}</span>
+                                        </div>
+                                    @enderror
                                 </div>
                                 <div class="col-6" style="z-index: 50">
                                     <label for="password_confirmation" class="form-label text-purple m-0"><b>Confirm
                                             Password
                                             <sup>*</sup></b></label>
-                                    <div class="input-group">
+                                    <div id="password_confirmation_group" class="input-group"
+                                        style="border-radius: 0.25rem;">
                                         <input id="password_confirmation" class="form-control form-control-sm input-gray"
-                                            type="password" name="password_confirmation" required />
+                                            type="password" name="password_confirmation" oncopy="return false"
+                                            onpaste="return false" oncut="return false" required />
                                         <button class="btn btn-sm input-gray" type="button" id="button-visible2">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="15" height="15"
                                                 fill="currentColor" class="bi bi-eye-fill" viewBox="0 0 16 16">
@@ -106,13 +173,19 @@
                                             </svg>
                                         </button>
                                     </div>
-                                    <div id="pswconfirm_message" class="redhat small-text text-danger spacing-half"
+                                    <div id="pswconfirm_message" class="redhat med-text text-danger spacing-half"
                                         style="display: none">
                                         <span>Password do not match</span>
                                     </div>
+                                    @error('password_confirmation')
+                                        <div class="redhat text-danger med-text mt-1 spacing-1">
+                                            <span>{{ json_decode($errors)->password_confirmation[0] }}</span>
+                                        </div>
+                                    @enderror
                                 </div>
                                 <div class="position-absolute">
-                                    <button type="button" class="px-1 py-0 float-end bg-transparent border-0" style="margin-right: -2rem; margin-top: 1.5rem;" id="psw-tooltip"
+                                    <button type="button" class="px-1 py-0 float-end bg-transparent border-0"
+                                        style="margin-right: -2rem; margin-top: 1.5rem;" id="psw-tooltip"
                                         data-bs-toggle="tooltip" data-bs-placement="right" data-bs-trigger="manual"
                                         data-bs-html="true"
                                         data-bs-title="<b></b>Password must:<ul><li>Be a minimun 8 characters</li><li>Include at least one lowercase letter (a-z)</li><li>Include at least one uppercase letter (A-Z)</li><li>Include at least one number (0-9)</li><li>Include at least one special character</li></ul>">
@@ -127,37 +200,33 @@
 
                             <div class="row mb-3">
                                 <div class="col-6">
-                                    <label for="phone" class="form-label text-purple m-0"><b>Phone Number
-                                            <sup>*</sup></b></label>
-                                    <div class="input-group input-group-sm">
-                                        <span class="input-group-text" id="phone-code-label">+1</span>
-                                        <input id="phone_number" class="float-end form-control form-control-sm input-gray"
-                                            type="text" name="phone_number" id="phone_number" size="15"
-                                            required />
-                                    </div>
-
-                                    <div id="phone_number_message" class="redhat small-text text-danger spacing-half"
-                                        style="display: none">
-                                        <span></span>
-                                    </div>
-                                    @error('phone_number')
-                                        <div class="redhat text-danger small-text mt-1 spacing-1">
-                                            <span>{{ json_decode($errors)->phone_number[0] }}</span>
-                                        </div>
-                                    @enderror
-                                </div>
-                                <div class="col-6">
                                     <label for="birthdate" class="form-label text-purple m-0"><b>Date of Birth
                                             <sup>*</sup></b></label>
                                     <input id="birthdate" class="form-control form-control-sm input-gray" type="date"
-                                        name="birthdate" required />
-                                    <div id="birthdate_message" class="redhat small-text text-danger spacing-half"
+                                        name="birthdate" value="{{ old('birthdate') }}" required />
+                                    <div id="birthdate_message" class="redhat med-text text-danger spacing-half"
                                         style="display: none">
                                         <span></span>
                                     </div>
                                     @error('birthdate')
-                                        <div class="redhat text-danger small-text mt-1 spacing-1">
+                                        <div class="redhat text-danger med-text mt-1 spacing-1">
                                             <span>{{ json_decode($errors)->birthdate[0] }}</span>
+                                        </div>
+                                    @enderror
+                                </div>
+                                <div class="col-6">
+                                    <label for="mothers_name" class="form-label text-purple m-0"><b>Mother's Maiden
+                                            Name
+                                            <sup>*</sup></b></label>
+                                    <input id="mothers_name" class="form-control form-control-sm input-gray"
+                                        type="text" name="mothers_name" value="{{ old('mothers_name') }}" required />
+                                    <div id="mothers_name_message" class="redhat med-text text-danger spacing-half"
+                                        style="display: none">
+                                        <span></span>
+                                    </div>
+                                    @error('mothers_name')
+                                        <div class="redhat text-danger med-text mt-1 spacing-1">
+                                            <span>{{ json_decode($errors)->mothers_name[0] }}</span>
                                         </div>
                                     @enderror
                                 </div>
@@ -173,13 +242,14 @@
                             <div class="row mb-2">
                                 <div class="col-lg">
                                     <input id="street_address" class="form-control form-control-sm input-gray"
-                                        type="text" name="street_address" required />
-                                    <div id="street_address_message" class="redhat small-text text-danger spacing-half"
+                                        type="text" name="street_address" value="{{ old('street_address') }}"
+                                        required />
+                                    <div id="street_address_message" class="redhat med-text text-danger spacing-half"
                                         style="display: none">
                                         <span></span>
                                     </div>
                                     @error('street_address')
-                                        <div class="redhat text-danger small-text mt-1 spacing-1">
+                                        <div class="redhat text-danger med-text mt-1 spacing-1">
                                             <span>{{ json_decode($errors)->street_address[0] }}</span>
                                         </div>
                                     @enderror
@@ -189,21 +259,22 @@
                             <div class="row mb-3">
                                 <div class="col-lg">
                                     <input id="street_address_2" class="form-control form-control-sm input-gray"
-                                        type="text" name="street_address_2" />
+                                        type="text" name="street_address_2" value="{{ old('street_address_2') }}" />
                                 </div>
                             </div>
 
                             <div class="row mb-3">
                                 <div class="col-lg-4">
-                                    <label for="city" class="form-label text-purple"><b>City <sup>*</sup></b></label>
+                                    <label for="city" class="form-label text-purple"><b>City
+                                            <sup>*</sup></b></label>
                                     <input id="city" class="form-control form-control-sm input-gray" type="text"
-                                        name="city" required />
-                                    <div id="city_message" class="redhat small-text text-danger spacing-half"
+                                        name="city" value="{{ old('city') }}" required />
+                                    <div id="city_message" class="redhat med-text text-danger spacing-half"
                                         style="display: none">
                                         <span></span>
                                     </div>
                                     @error('city')
-                                        <div class="redhat text-danger small-text mt-1 spacing-1">
+                                        <div class="redhat text-danger med-text mt-1 spacing-1">
                                             <span>{{ json_decode($errors)->city[0] }}</span>
                                         </div>
                                     @enderror
@@ -212,19 +283,19 @@
                                     <label for="state_province"
                                         class="form-label text-purple"><b>State/Province</b></label>
                                     <input id="state_province" class="form-control form-control-sm input-gray"
-                                        type="text" name="state_province" />
+                                        type="text" name="state_province" value="{{ old('state_province') }}" />
                                 </div>
                                 <div class="col-lg-4">
                                     <label for="postal_code" class="form-label text-purple"><b>Zip/Postal Code
                                             <sup>*</sup></b></label>
                                     <input id="postal_code" class="form-control form-control-sm input-gray"
-                                        type="text" name="postal_code" required />
-                                    <div id="postal_code_message" class="redhat small-text text-danger spacing-half"
+                                        type="text" name="postal_code" value="{{ old('postal_code') }}" required />
+                                    <div id="postal_code_message" class="redhat med-text text-danger spacing-half"
                                         style="display: none">
                                         <span></span>
                                     </div>
                                     @error('postal_code')
-                                        <div class="redhat text-danger small-text mt-1 spacing-1">
+                                        <div class="redhat text-danger med-text mt-1 spacing-1">
                                             <span>{{ json_decode($errors)->postal_code[0] }}</span>
                                         </div>
                                     @enderror
@@ -239,29 +310,54 @@
                                         class="form-control form-control-sm select input-gray"
                                         style="background-color: #e9eef0;" required>
                                     </select>
-                                    <div id="country_message" class="redhat small-text text-danger spacing-half"
+                                    <div id="country_message" class="redhat med-text text-danger spacing-half"
                                         style="display: none">
                                         <span></span>
                                     </div>
                                     @error('country')
-                                        <div class="redhat text-danger small-text mt-1 spacing-1">
+                                        <div class="redhat text-danger med-text mt-1 spacing-1">
                                             <span>{{ json_decode($errors)->country[0] }}</span>
                                         </div>
                                     @enderror
                                 </div>
                             </div>
 
-                            <div class="d-flex justify-content-center mb-3">
-                                <input type="checkbox" class="form-check-input me-2" name="read" id="policy-check">
+                            <div class="mb-1">
+                                <input type="hidden" name="terms_date" id="terms-date">
+                                <input type="checkbox" class="form-check-input me-2" name="read" id="terms-check">
                                 <span class="redhat med-text">I've read the <span class="text-blue"
                                         style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#termsModal">Terms
-                                        and Conditions</span> and <span class="text-blue" style="cursor: pointer"
-                                        data-bs-toggle="modal" data-bs-target="#ppModal">Privacy
-                                        Policy</span> and am willing to proceed.</span>
+                                        and Conditions</span>.</span>
+                                <span id="terms_message" class="redhat med-text text-danger spacing-half"
+                                    style="display: none">Please read the Terms and Conditions</span>
+                                @error('terms_date')
+                                    <span class="redhat text-danger med-text mt-1 spacing-1">Please read the Terms and
+                                        Conditions</span>
+                                @enderror
+                            </div>
+                            <div class="mb-1">
+                                <input type="hidden" name="policy_date" id="policy-date">
+                                <input type="checkbox" class="form-check-input me-2" name="read" id="policy-check">
+                                <span class="redhat med-text">I've read the <span class="text-blue"
+                                        style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#ppModal">Privacy
+                                        Policy</span>.</span>
+                                <span id="policy_message" class="redhat med-text text-danger spacing-half"
+                                style="display: none">Please read the Privacy Policy</span>
+                                @error('policy_date')
+                                    <span class="redhat text-danger med-text mt-1 spacing-1">Please read the Privacy
+                                        Policy</span>
+                                @enderror
+                            </div>
+                            <div class="mb-4">
+                                <input type="hidden" name="marketing_date" id="marketing-date">
+                                <input type="checkbox" class="form-check-input me-2" name="read"
+                                    id="marketing-check">
+                                <span class="redhat med-text">By checking this box you would like to receive more
+                                    information about our product/services, events, news and offers.</span></span>
                             </div>
 
                             <div class="d-flex justify-content-center">
-                                <button type="submit" class="btn bg-purple small-text text-white me-2 py-2">
+                                <button type="submit" class="btn bg-purple med-text text-white me-2 py-2">
                                     <div class="d-flex justify-content-center align-item-center">
                                         <div class="pe-4">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"
