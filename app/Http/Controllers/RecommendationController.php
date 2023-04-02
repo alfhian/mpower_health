@@ -31,12 +31,12 @@ class RecommendationController extends Controller
         $log        = LogManagement::store($log_data, $log_detail);
 
         $user           = Auth::user();
-        $profile        = ClientInformation::where('client_id', $user->id)->get();
+        $profile        = ClientInformation::find($user->id);
         $recommendation = Recommendation::getAllData();
 
         $data = [
             'client_id' => $user->id,
-            'firstname' => $profile[0]['firstname'],
+            'firstname' => $profile->firstname,
             'photo'     => $user->profile_photo_path,
             'role'      => $user->role_id,
             'recommendation' => $recommendation,

@@ -1,19 +1,116 @@
 @extends('layouts.main')
 
 @section('content')
+    <div class="modal fade" id="updateProfileModal" data-bs-keyboard="false" aria-labelledby="staticBackdropLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body text-center">
+                    <h5 class="redhat text-purple text-center mb-3"><b>Update Profile</b></h5>
+                    <form method="POST" action="{{ url('profile_management/update') }}" id="update-profile-form"
+                        enctype="multipart/form-data">
+                        @csrf
+                        <div class="d-flex justify-content-center my-3">
+                            <div class="w-75 text-start">
+                                <div class="mb-2">
+                                    <label for="firstname" class="form-label redhat med-text text-purple m-0"><b>First
+                                            Name <sup>*</sup></b></label>
+                                    <input id="firstname" class="form-control form-control-sm input-gray" type="text"
+                                        name="firstname" value="{{ $profile->firstname }}" required />
+                                    <div id="lastname_message" class="redhat small-text text-danger spacing-half"
+                                        style="display: none">
+                                        <span></span>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <label for="lastname" class="form-label redhat med-text text-purple m-0"><b>Last
+                                            Name <sup>*</sup></b></label>
+                                    <input id="lastname" class="form-control form-control-sm input-gray" type="text"
+                                        name="lastname" value="{{ $profile->lastname }}" required />
+                                    <div id="lastname_message" class="redhat small-text text-danger spacing-half"
+                                        style="display: none">
+                                        <span></span>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <label for="street_address" class="form-label redhat med-text text-purple m-0"><b>Street
+                                            Address<sup>*</sup></b></label>
+                                    <input id="street_address" class="form-control form-control-sm input-gray"
+                                        type="text" name="street_address" value="{{ $profile->street_address }}"
+                                        required />
+                                    <div id="street_address_message" class="redhat small-text text-danger spacing-half"
+                                        style="display: none">
+                                        <span></span>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <input id="street_address_2" class="form-control form-control-sm input-gray"
+                                        type="text" name="street_address_2" value="{{ $profile->street_address_2 }}" />
+                                </div>
+                                <div class="mb-2">
+                                    <label for="city" class="form-label redhat med-text text-purple m-0"><b>City
+                                            <sup>*</sup></b></label>
+                                    <input id="city" class="form-control form-control-sm input-gray" type="text"
+                                        name="city" value="{{ $profile->city }}" required />
+                                    <div id="city_message" class="redhat small-text text-danger spacing-half"
+                                        style="display: none">
+                                        <span></span>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <label for="state_province"
+                                        class="form-label redhat med-text text-purple m-0"><b>State/Province</b></label>
+                                    <input id="state_province" class="form-control form-control-sm input-gray"
+                                        type="text" name="state_province" value="{{ $profile->state_province }}" />
+                                </div>
+                                <div class="mb-2">
+                                    <label for="postal_code" class="form-label redhat med-text text-purple m-0"><b>Postal
+                                            Code
+                                            <sup>*</sup></b></label>
+                                    <input id="postal_code" class="form-control form-control-sm input-gray" type="text"
+                                        name="postal_code" value="{{ $profile->postal_code }}" required />
+                                    <div id="postal_code_message" class="redhat small-text text-danger spacing-half"
+                                        style="display: none">
+                                        <span></span>
+                                    </div>
+                                </div>
+                                <div class="mb-2">
+                                    <label for="country" class="form-label redhat med-text text-purple m-0"><b>Country
+                                            <sup>*</sup></b></label>
+                                    <select name="country" id="country"
+                                        class="form-control form-control-sm select input-gray"
+                                        style="background-color: #e9eef0; z-index: 1000;" required>
+                                        <option value="{{ $profile->country }}" selected>{{ $profile->country }}</option>
+                                    </select>
+                                    <div id="country_message" class="redhat small-text text-danger spacing-half"
+                                        style="display: none">
+                                        <span></span>
+                                    </div>
+                                </div>
+                                <button
+                                    class="btn btn-sm w-100 bg-purple redhat med-text text-white shadow spacing-1 px-5 my-3"><b>SAVE</b></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="modal fade" id="changePasswordModal" data-bs-keyboard="false" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
                 <div class="modal-body text-center">
                     <h5 class="redhat text-purple text-center mb-3"><b>Change Password</b></h5>
-                    <form method="POST" action="{{ url('profile_management/change_password') }}" id="change-password-form"
-                        enctype="multipart/form-data">
+                    <form method="POST" action="{{ url('profile_management/change_password') }}"
+                        id="change-password-form" enctype="multipart/form-data">
                         @csrf
                         <input type="hidden" name="email" value="{{ $email }}">
                         <div class="d-flex justify-content-center my-3">
                             <div class="position-relative text-start">
-                                <label for="current_password" class="form-label redhat med-text text-purple m-0"><b>Current
+                                <label for="current_password"
+                                    class="form-label redhat med-text text-purple m-0"><b>Current
                                         Password</b></label>
                                 <div class="input-group">
                                     <input id="current_password" class="form-control form-control-sm input-gray"
@@ -55,7 +152,8 @@
                                             data-bs-placement="right" data-bs-trigger="manual" data-bs-html="true"
                                             data-bs-title="<b></b>Password must:<ul><li>Be a minimun 8 characters</li><li>Include at least one lowercase letter (a-z)</li><li>Include at least one uppercase letter (A-Z)</li><li>Include at least one number (0-9)</li><li>Include at least one special character</li></ul>">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16"
-                                                fill="currentColor" class="bi bi-question-circle-fill" viewBox="0 0 16 16">
+                                                fill="currentColor" class="bi bi-question-circle-fill"
+                                                viewBox="0 0 16 16">
                                                 <path
                                                     d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM5.496 6.033h.825c.138 0 .248-.113.266-.25.09-.656.54-1.134 1.342-1.134.686 0 1.314.343 1.314 1.168 0 .635-.374.927-.965 1.371-.673.489-1.206 1.06-1.168 1.987l.003.217a.25.25 0 0 0 .25.246h.811a.25.25 0 0 0 .25-.25v-.105c0-.718.273-.927 1.01-1.486.609-.463 1.244-.977 1.244-2.056 0-1.511-1.276-2.241-2.673-2.241-1.267 0-2.655.59-2.75 2.286a.237.237 0 0 0 .241.247zm2.325 6.443c.61 0 1.029-.394 1.029-.927 0-.552-.42-.94-1.029-.94-.584 0-1.009.388-1.009.94 0 .533.425.927 1.01.927z" />
                                             </svg>
@@ -90,7 +188,7 @@
             </div>
         </div>
     </div>
-    </div>
+
     <div class="dashboard-container d-flex">
         @include('layouts.sidebar')
         <div class="dashboard container-fluid m-0 px-3 pt-5">
@@ -119,7 +217,7 @@
                                 <button type="button" class="btn-close small-text" data-bs-dismiss="alert"
                                     aria-label="Close"></button>
                                 @foreach ($errors->all() as $error)
-                                <strong class="redhat med-text">{{ $error }}</strong><br>
+                                    <strong class="redhat med-text">{{ $error }}</strong><br>
                                 @endforeach
                             </div>
                         @endif
@@ -131,102 +229,105 @@
                         </div>
                         <div class="ps-3">
                             @csrf
-                            @foreach ($data as $row)
-                                <div class="row mt-3">
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <div class="col flex-column bd-highlight">
-                                                <div>
-                                                    <span class="redhat small-text text-muted">FIRST
-                                                        NAME</span>
-                                                </div>
-                                                <div>
-                                                    <span class="redhat med-text"><b>{{ $row->firstname }}</b></span>
-                                                </div>
+                            <div class="row mt-3">
+                                <div class="col-6">
+                                    <div class="row">
+                                        <div class="col flex-column bd-highlight">
+                                            <div>
+                                                <span class="redhat small-text text-muted">FIRST
+                                                    NAME</span>
                                             </div>
-                                        </div>
-                                        <div class="row my-3">
-                                            <div class="col flex-column bd-highlight">
-                                                <div>
-                                                    <span class="redhat small-text text-muted">LAST
-                                                        NAME</span>
-                                                </div>
-                                                <div>
-                                                    <span class="redhat med-text"><b>{{ $row->lastname }}</b></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row my-3">
-                                            <div class="col flex-column bd-highlight">
-                                                <div>
-                                                    <span class="redhat small-text text-muted">DATE OF
-                                                        BIRTH</span>
-                                                </div>
-                                                <div>
-                                                    <span class="redhat med-text"><b>{{ $row->birthdate }}</b></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row my-3">
-                                            <div class="col flex-column bd-highlight">
-                                                <div>
-                                                    <span class="redhat small-text text-muted">PHONE
-                                                        NUMBER</span>
-                                                </div>
-                                                <div>
-                                                    <span class="redhat med-text"><b>{{ $row->phone_code }}
-                                                            {{ $row->phone_number }}</b></span>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="row my-3">
-                                            <div class="col mt-3">
-                                                <button type="button"
-                                                    class="btn btn-sm redhat med-text bg-purple text-white me-2"
-                                                    data-bs-toggle="modal" data-bs-target="#changePasswordModal">
-                                                    Change Password
-                                                </button>
+                                            <div>
+                                                <span class="redhat med-text"><b>{{ $profile->firstname }}</b></span>
                                             </div>
                                         </div>
                                     </div>
-                                    <div class="col-6">
-                                        <div class="row">
-                                            <div class="col flex-column bd-highlight">
-                                                <div>
-                                                    <span class="redhat small-text text-muted">EMAIL</span>
-                                                </div>
-                                                <div>
-                                                    <span class="redhat med-text"><b>{{ $email }}</b></span>
-                                                </div>
+                                    <div class="row my-3">
+                                        <div class="col flex-column bd-highlight">
+                                            <div>
+                                                <span class="redhat small-text text-muted">LAST
+                                                    NAME</span>
+                                            </div>
+                                            <div>
+                                                <span class="redhat med-text"><b>{{ $profile->lastname }}</b></span>
                                             </div>
                                         </div>
-                                        <div class="row my-3">
-                                            <div class="col flex-column bd-highlight">
-                                                <div>
-                                                    <span class="redhat small-text text-muted">ADDRESS</span>
-                                                </div>
-                                                <div>
-                                                    <span class="redhat med-text"><b>
-                                                            {{ $row->street_address }}
-                                                            @if ($row->street_address_2 != null || $row->street_address_2 != '')
-                                                                <br>
-                                                                {{ $row->street_address_2 }}
-                                                            @endif
-                                                            <br>
-                                                            {{ $row->city }}
-                                                            @if ($row->state_province != null || $row->state_province != '')
-                                                                {{ $row->state_province }}
-                                                            @endif
-                                                            , {{ $row->postal_code }}
-                                                            <br>
-                                                            {{ $row->country }}
-                                                        </b></span>
-                                                </div>
+                                    </div>
+                                    <div class="row my-3">
+                                        <div class="col flex-column bd-highlight">
+                                            <div>
+                                                <span class="redhat small-text text-muted">DATE OF
+                                                    BIRTH</span>
+                                            </div>
+                                            <div>
+                                                <span class="redhat med-text"><b>{{ $profile->birthdate }}</b></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row my-3">
+                                        <div class="col flex-column bd-highlight">
+                                            <div>
+                                                <span class="redhat small-text text-muted">PHONE
+                                                    NUMBER</span>
+                                            </div>
+                                            <div>
+                                                <span class="redhat med-text"><b>{{ $profile->phone_code }}
+                                                        {{ $profile->phone_number }}</b></span>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
-                            @endforeach
+                                <div class="col-6">
+                                    <div class="row">
+                                        <div class="col flex-column bd-highlight">
+                                            <div>
+                                                <span class="redhat small-text text-muted">EMAIL</span>
+                                            </div>
+                                            <div>
+                                                <span class="redhat med-text"><b>{{ $email }}</b></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="row my-3">
+                                        <div class="col flex-column bd-highlight">
+                                            <div>
+                                                <span class="redhat small-text text-muted">ADDRESS</span>
+                                            </div>
+                                            <div>
+                                                <span class="redhat med-text"><b>
+                                                        {{ $profile->street_address }}
+                                                        @if ($profile->street_address_2 != null || $profile->street_address_2 != '')
+                                                            <br>
+                                                            {{ $profile->street_address_2 }}
+                                                        @endif
+                                                        <br>
+                                                        {{ $profile->city }}
+                                                        @if ($profile->state_province != null || $profile->state_province != '')
+                                                            {{ $profile->state_province }}
+                                                        @endif
+                                                        , {{ $profile->postal_code }}
+                                                        <br>
+                                                        {{ $profile->country }}
+                                                    </b></span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row my-3">
+                                    <div class="col d-flex mt-3">
+                                        <button type="button"
+                                            class="btn btn-sm redhat med-text bg-purple text-white me-2"
+                                            data-bs-toggle="modal" data-bs-target="#updateProfileModal">
+                                            <b>Update Profile</b>
+                                        </button>
+                                        <button type="button"
+                                            class="btn btn-sm redhat med-text bg-purple text-white me-2"
+                                            data-bs-toggle="modal" data-bs-target="#changePasswordModal">
+                                            <b>Change Password</b>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
                             </form>
                         </div>
                     </div>

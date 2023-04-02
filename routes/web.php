@@ -65,7 +65,7 @@ Route::middleware([
     
         Route::prefix('profile_management')->group(function() {
             Route::get('/', [App\Http\Controllers\ProfileManagementController::class, 'index'])->name('profile_management');
-            Route::post('/edit', [App\Http\Controllers\ProfileManagementController::class, 'edit'])->name('edit_profile');
+            Route::post('/update', [App\Http\Controllers\ProfileManagementController::class, 'edit'])->name('edit_profile');
             Route::post('/change_password', [App\Http\Controllers\ProfileManagementController::class, 'change_password'])->name('change_password');
         });
     

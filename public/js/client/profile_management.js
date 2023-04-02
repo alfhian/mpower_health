@@ -180,3 +180,38 @@ $('#change-password-form').submit(function () {
         return false
     }
 })
+
+
+// API for Country and Phone Code
+let cName = []
+let country = $('#country option:selected').val()
+
+$.ajax({
+    url: 'https://restcountries.com/v2/all',
+    contentType: "application/json",
+    dataType: 'json',
+    success: function (result) {
+        result.forEach(function (o) {
+            cName.push(o.name)
+        })
+        console.log(cName)
+        cName.forEach(function (item, index) {
+            if (item != country) {
+                $('#country').append(new Option(item, item))
+            }
+        })
+        
+        $('.select').select2({
+            dropdownParent: $("#updateProfileModal")
+        })
+        /*
+        for (let x = 0; x < pCode.length; x++) {
+            $('#phone_code').append(new Option('(' + pCode[x]['country'] + ') +' +
+                pCode[x][
+                    'code'
+                ],
+                '+' + pCode[x]['code']))
+        }
+        */
+    }
+})

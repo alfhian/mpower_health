@@ -43,12 +43,12 @@ class DashboardController extends Controller
             return redirect()->route('login')->with('error', 'Your account has been deactivated. Please contact the administrator for further details');
         }
 
-        $profile = ClientInformation::where('client_id', $user->id)->get();
+        $profile = ClientInformation::find($user->id);
 
         // Check the verified status of user
         // If the user has NOT been in a verification success notification page, then redirect to that page and then automaticaly redirect to login page
-        if ($profile[0]['verified_status'] == 'N') {
-            ClientInformation::where('client_id', $user->id)
+        if ($profile->verified_status == 'N') {
+            ClientInformation::where('id', $user->id)
             ->update(['verified_status' => 'Y']);
             return Redirect::route('verification_success', $user->id);
         }
@@ -66,10 +66,8 @@ class DashboardController extends Controller
 
         $data = [
             'client_id' => $user->id,
-            'firstname' => $profile[0]['firstname'],
-            'lastname'  => $profile[0]['lastname'],
+            'firstname' => $profile->firstname,
             'email'     => $user->email,
-            'personal_information' => $profile[0]['personal_information'],
             'photo'     => $user->profile_photo_path,
             'role'      => $user->role_id,
             'recommendation' => $recommendation,

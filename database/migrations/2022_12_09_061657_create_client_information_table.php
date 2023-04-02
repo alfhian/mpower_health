@@ -14,7 +14,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('client_information', function (Blueprint $table) {
-            $table->string('client_id', 10);
+            $table->string('id', 10);
             $table->binary('firstname');
             $table->binary('lastname');
             $table->string('verified_status', 1)->default('N');

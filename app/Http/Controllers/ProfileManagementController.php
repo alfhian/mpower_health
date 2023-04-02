@@ -29,14 +29,14 @@ class ProfileManagementController extends Controller
         ];
         $log        = LogManagement::store($log_data, $log_detail);
 
-        $user       = Auth::user();
-        $profile    = ClientInformation::where('client_id', $user->id)->get();
+        $user = Auth::user();
+        $profile    = ClientInformation::find(Auth::id());
 
         $data = [
-            'data'      => $profile,
+            'profile'   => $profile,
             'client_id' => $user->id,
             'email'     => $user->email,
-            'firstname' => $profile[0]['firstname'],
+            'firstname' => $profile->firstname,
             'photo'     => $user->profile_photo_path,
             'role'      => $user->role_id
         ];

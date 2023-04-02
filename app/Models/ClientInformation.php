@@ -34,13 +34,18 @@ class ClientInformation extends Model
 
     public static function edit($request)
     {
-        $user = Auth::user();
+        $client = ClientInformation::find(Auth::id());
 
-        $update = ClientInformation::where('client_id', $user->id)
-                ->update([
-                    'personal_information' => $request->personal_information
-                ]);
+        $client->firstname         = $request->firstname;
+        $client->lastname           = $request->lastname;
+        $client->street_address     = $request->street_address;
+        $client->street_address_2   = $request->street_address_2;
+        $client->city               = $request->city;
+        $client->state_province     = $request->state_province;
+        $client->postal_code        = $request->postal_code;
+        $client->country            = $request->country;
+        $client->save();
 
-        return $update;
+        return $client;
     }
 }

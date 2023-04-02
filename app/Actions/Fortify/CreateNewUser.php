@@ -58,7 +58,7 @@ class CreateNewUser implements CreatesNewUsers
         $update_user->save();
 
         ClientInformation::create([
-            'client_id' => $client[0]['id'],
+            'id' => $client[0]['id'],
             'firstname' => $input['firstname'],
             'lastname' => $input['lastname'],
             'birthdate' => $input['birthdate'],

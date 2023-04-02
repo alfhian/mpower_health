@@ -3,7 +3,7 @@
 @section('content')
 
 @php
-$client = App\Models\ClientInformation::where('client_id', Auth::id())->get();
+$client = App\Models\ClientInformation::where('id', Auth::id())->get();
 $firstname = $client[0]['firstname'];
 @endphp
 
