@@ -17,9 +17,11 @@ return new class extends Migration
             $table->id();
             $table->integer('client_id');
             $table->integer('biomarker_id')->nullable();
-            $table->string('lab_result_no', 50);
+            $table->binary('institution');
+            $table->binary('lab_result_no');
             $table->binary('lab_result');
             $table->binary('file_path');
+            $table->binary('ticket_number');
             $table->string('claim', 1)->nullable();
             $table->string('user_claim', 50)->nullable();
             $table->integer('recommendation_id')->nullable();

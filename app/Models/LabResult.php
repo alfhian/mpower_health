@@ -20,6 +20,7 @@ class LabResult extends Model
     protected $dates = ['deleted_at'];
     
     protected $casts = [
+        'institution'               => 'encrypted',
         'lab_result'                => 'encrypted',
         'file_path'                 => 'encrypted',
         'recommendation'            => 'encrypted',
@@ -41,12 +42,13 @@ class LabResult extends Model
     public static function store($request) {
         $lab_result     = LabResult::latest()->first();
         $ticket_number  = '';
+        $institution    = str_replace(' ', '', $request->institution);
 
         if ($lab_result == NULL) {
-            $labr_code      = 'LABR00001';
+            $labr_code  = $institution.date('Ymd').'00001';
             $ticket_number  = 'A00001';
         } else {
-            $labr_code = 'LABR'.str_pad(strval(intval(substr($lab_result->lab_result_no, 4))+1), 5, '0', STR_PAD_LEFT);
+            $labr_code = $institution.date('Ymd').str_pad(strval(intval(substr($lab_result->lab_result_no, -5))+1), 5, '0', STR_PAD_LEFT);
             $ticket_number = 'A'.str_pad(strval(intval(substr($lab_result->ticket_number, 1))+1), 5, '0', STR_PAD_LEFT);
         }
 
@@ -62,6 +64,7 @@ class LabResult extends Model
         $file_path = Storage::url('public/lab_results/'.$file_name);
 
         $labResult->client_id       = Auth::id();
+        $labResult->institution     = $request->institution;
         $labResult->lab_result_no   = $labr_code;
         $labResult->lab_result      = $file_name;
         $labResult->file_path       = $file_path;

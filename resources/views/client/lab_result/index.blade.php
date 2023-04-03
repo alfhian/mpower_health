@@ -10,6 +10,18 @@
                     <form method="POST" action="{{ url('lab_result/upload_lab_result') }}" id="upload-lab-result-form"
                         enctype="multipart/form-data">
                         @csrf
+                        <div class="d-flex justify-content-center">
+                            <div class="w-75 text-start mb-2">
+                                <label for="institution" class="form-label redhat med-text text-purple m-0"><b>Institution
+                                        <sup>*</sup></b></label>
+                                <input id="institution" class="form-control form-control-sm input-gray" type="text"
+                                    name="institution" required />
+                                <div id="institution_message" class="redhat small-text text-danger spacing-half"
+                                    style="display: none">
+                                    <span></span>
+                                </div>
+                            </div>
+                        </div>
                         <span class="redhat small-text text-muted">Please upload only <b>1 (one)</b> of the following format
                             for each
                             <b>Lab Result (jpg, png, pdf)</b>.</span>
@@ -18,15 +30,15 @@
                                 id="lab-result" required>
                         </div>
                         <!--
-                        <div class="d-flex justify-content-center align-items-center mt-3 mb-2">
-                            <input type="checkbox" class="form-check-input me-2" name="read" id="policy-check">
-                            <span class="redhat small-text text-primary">I've read the <span class="text-blue"
-                                    style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#termsModal"><b>Terms and
-                                        Conditions</b></span>
-                                and <span class="text-blue" style="cursor: pointer" data-bs-toggle="modal"
-                                    data-bs-target="#ppModal"><b>Privacy Policy</b></span> and am willing to proceed.</span>
-                        </div>
-                        -->
+                            <div class="d-flex justify-content-center align-items-center mt-3 mb-2">
+                                <input type="checkbox" class="form-check-input me-2" name="read" id="policy-check">
+                                <span class="redhat small-text text-primary">I've read the <span class="text-blue"
+                                        style="cursor: pointer" data-bs-toggle="modal" data-bs-target="#termsModal"><b>Terms and
+                                            Conditions</b></span>
+                                    and <span class="text-blue" style="cursor: pointer" data-bs-toggle="modal"
+                                        data-bs-target="#ppModal"><b>Privacy Policy</b></span> and am willing to proceed.</span>
+                            </div>
+                            -->
                         <button class="btn btn-sm bg-purple redhat med-text text-white shadow spacing-1 px-5 me-4"><b>UPLOAD
                                 FILE</b></button>
                     </form>
@@ -48,6 +60,9 @@
                                     $('#warning-description').html(warning)
                                 })
                             </script>
+                            @php
+                                Session::forget('success');
+                            @endphp
                         @endif
                         @if ($errors->any())
                             <div class="alert p-2 alert-danger alert-dismissible fade show" id="message-alert"
@@ -74,15 +89,16 @@
                                 @foreach ($lab_result as $index => $row)
                                     <tr>
                                         <td>{{ $index + 1 }}</td>
-                                        <td><a href="{{ url('lab_result/show_file/' . $hashids->encode($row->id)) }}"
-                                                >#{{ $row->lab_result_no }}</a></td>
+                                        <td><a
+                                                href="{{ url('lab_result/show_file/' . $hashids->encode($row->id)) }}">#{{ $row->lab_result_no }}</a>
+                                        </td>
                                         <td>{{ $row->upload_date }}</td>
                                         <td>
                                             @if ($row->recommendation_id == null)
                                                 -
                                             @else
-                                                <a href="{{ url('recommendation/show_file/' . $hashids->encode($row->recommendation_id)) }}"
-                                                    >Recommendation
+                                                <a
+                                                    href="{{ url('recommendation/show_file/' . $hashids->encode($row->recommendation_id)) }}">Recommendation
                                                     link</a>
                                             @endif
                                         </td>
@@ -113,8 +129,8 @@
                             </tbody>
                         </table>
                         <div class="text-center mt-5">
-                            <button type="button" class="btn btn-sm bg-green small-text py-2"
-                                data-bs-toggle="modal" data-bs-target="#uploadLabResultModal">
+                            <button type="button" class="btn btn-sm bg-green small-text py-2" data-bs-toggle="modal"
+                                data-bs-target="#uploadLabResultModal">
                                 <div class="d-flex justify-content-center align-item-center">
                                     <div class="pe-4">
                                         <svg xmlns="http://www.w3.org/2000/svg" width="10" height="10"

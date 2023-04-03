@@ -56,7 +56,8 @@ class LabResultController extends Controller
         $log        = LogManagement::store($log_data, $log_detail);
 
         Validator::make($request->all(), [
-            'lab_result' => ['required', 'mimes:pdf,jpg,jpeg,png', 'max:2048'],
+            'institution'   => ['required', 'max:50'],
+            'lab_result'    => ['required', 'mimes:pdf,jpg,jpeg,png', 'max:2048'],
         ], [
             'lab_result.max' => 'The lab report must not be greater than 2 Mb'
         ])->validate();
