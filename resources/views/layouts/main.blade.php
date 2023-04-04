@@ -48,7 +48,10 @@
                         @csrf
                         @if ($errors->any())
                             @if (property_exists(json_decode($errors), 'email'))
-                                @if (json_decode($errors)->email[0] != 'The email field is required.' && json_decode($errors)->email[0] != 'The email must be a valid email address.' && json_decode($errors)->email[0] != 'The email has already been taken.' && json_decode($errors)->email[0] != "We can't find a user with that email address.")
+                                @if (json_decode($errors)->email[0] != 'The email field is required.' &&
+                                        json_decode($errors)->email[0] != 'The email must be a valid email address.' &&
+                                        json_decode($errors)->email[0] != 'The email has already been taken.' &&
+                                        json_decode($errors)->email[0] != "We can't find a user with that email address.")
                                     <div class="redhat text-danger small-text mb-2 spacing-1 text-center">
                                         <span>{{ json_decode($errors)->email[0] }}</span>
                                     </div>
@@ -120,7 +123,8 @@
 
                         </p>
                         <div class="d-flex justify-content-center">
-                            <a type="button" class="w-50 btn btn-sm bg-purple shadow redhat small-text text-white me-2 py-2"
+                            <a type="button"
+                                class="w-50 btn btn-sm bg-purple shadow redhat small-text text-white me-2 py-2"
                                 data-bs-toggle="modal" id="close-warning" href="">
                                 <b>CLOSE</b>
                             </a>
@@ -138,7 +142,7 @@
             <div class="modal-content">
                 <div class="modal-body">
                     <div class="w-100 text-center">
-                        <span class="redhat med-text text-purple soacing-1"><b>Are you sure you want to <span
+                        <span class="redhat med-text text-purple spacing-1"><b>Are you sure you want to <span
                                     id="action-text"></span> this data?</b></span>
                         <br>
                         <div class="redhat mt-3">
@@ -147,6 +151,34 @@
                             <button type="button" class="btn btn-sm bg-white med-text text-purple shadow px-5"
                                 data-bs-dismiss="modal">No</button>
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Auto Log-off modal -->
+    <div class="modal fade" id="autoLogOffModal" data-bs-keyboard="false" tabindex="-1"
+        aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal modal-dialog-centered">
+            <div class="modal-content">
+                <div class="modal-body p-5">
+                    <div class="w-100">
+                        <form action="{{ url('/logout') }}" method="post" id="idle_log_out_form">
+                            <h5 class="redhat text-center text-purple">Are you still there?</h5>
+                            <span class="redhat text-start">Hello! It looks like you've been away for a little while.
+                                To keep your account secure, we'll log you out in a few minutes. If you're still with
+                                us, just click "Stay logged in" below to keep going. If you're done for now, no problem
+                                at all - we'll log you out automatically.</span>
+                            <br>
+                            <div class="redhat mt-5">
+                                <button type="button" class="btn btn-sm bg-purple med-text text-white shadow px-5 me-4"
+                                    id="stay" data-bs-dismiss="modal"><b>Stay Logged In</b></button>
+                                <button
+                                    class="btn btn-sm bg-white-border med-text text-purple shadow px-5"
+                                    id="log_out_now"><b>Log Out Now</b></button>
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>
@@ -333,7 +365,7 @@
     </script>
 
     @yield('content')
-    
+
     @include('layouts.footer')
 
     <script src="{{ asset('js/libs.js') }}"></script>
