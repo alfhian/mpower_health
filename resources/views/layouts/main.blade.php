@@ -384,6 +384,7 @@
             <script src="{{ asset('js/client/' . Request::path() . '.js') }}"></script>
         @endif
     @else
+        <script src="{{ asset('js/autologoff.js') }}"></script>
         @if (Auth::user()->role_id == 1)
             <script src="{{ asset('js/client/' . Request::path() . '.js') }}"></script>
         @else
