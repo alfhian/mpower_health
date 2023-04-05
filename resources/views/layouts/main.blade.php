@@ -158,7 +158,7 @@
     </div>
 
     <!-- Auto Log-off modal -->
-    <div class="modal fade" id="autoLogOffModal" data-bs-keyboard="false" tabindex="-1"
+    <div class="modal fade" id="autoLogOffModal" data-bs-keyboard="false" data-bs-backdrop="static" tabindex="-1"
         aria-labelledby="staticBackdropLabel" aria-hidden="true">
         <div class="modal-dialog modal modal-dialog-centered">
             <div class="modal-content">
