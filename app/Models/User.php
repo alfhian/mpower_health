@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -12,6 +13,8 @@ use Laravel\Jetstream\HasProfilePhoto;
 use Laravel\Sanctum\HasApiTokens;
 
 use App\Mail\SendCodeMail;
+use App\Models\LabResult;
+use App\Models\ClientInformation;
 
 use Exception;
 use Mail;
@@ -27,6 +30,9 @@ class User extends Authenticatable implements MustVerifyEmail
     use HasProfilePhoto;
     use Notifiable;
     use TwoFactorAuthenticatable;
+    use SoftDeletes;
+
+    protected $dates = ['deleted_at'];
 
     /**
      * The attributes that are mass assignable.
@@ -110,5 +116,51 @@ class User extends Authenticatable implements MustVerifyEmail
                     ->get();
 
         return $limit;
+    }
+
+    public static function deactivate() {
+        $deactivate = User::leftJoin('log_management as b', function($join) {
+                            $join->on('b.user_input', '=', 'users.id')
+                                ->on('b.created_at', '>=', DB::raw('DATE_ADD(CURDATE(), INTERVAL -6 MONTH)'));
+                        })
+                        ->where('b.created_at', NULL)
+                        ->where('users.role_id', 1)
+                        ->groupBy('users.id');
+
+        $get_group_id = $inactive_user->select(DB::raw('GROUP_CONCAT(users.id) as id'))->get();
+
+        $group_id = explode(',', $get_group_id[0]['id']);
+
+        $lab_result = LabResult::whereIn('client_id', $group_id)->delete();
+
+        $client_information = ClientInformation::whereIn('id', $group_id)->delete();                
+        
+        $deactivate = $deactivate->update([
+                        'status' => 'N'
+                    ]);
+
+        return $deactivate;
+    }
+
+    public static function deleteInactive() {
+        $inactive_user = User::leftJoin('log_management as b', function($join) {
+                                $join->on('b.user_input', '=', 'users.id')
+                                    ->on('b.created_at', '>=', DB::raw('DATE_ADD(CURDATE(), INTERVAL -1 YEAR)'));
+                            })
+                            ->where('b.created_at', NULL)
+                            ->where('users.role_id', 1)
+                            ->groupBy('users.id');
+
+        $get_group_id = $inactive_user->select(DB::raw('GROUP_CONCAT(users.id) as id'))->get();
+
+        $group_id = explode(',', $get_group_id[0]['id']);
+
+        $lab_result = LabResult::whereIn('client_id', $group_id)->forceDelete();
+
+        $client_information = ClientInformation::whereIn('id', $group_id)->forceDelete();
+
+        $delete = $inactive_user->forceDelete();
+
+        return $delete;
     }
 }

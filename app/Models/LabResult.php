@@ -15,7 +15,7 @@ use Auth;
 
 class LabResult extends Model
 {
-    use HasFactory;
+    use HasFactory, softDeletes;
     
     protected $dates = ['deleted_at'];
     

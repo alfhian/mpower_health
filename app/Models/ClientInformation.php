@@ -10,8 +10,7 @@ use Auth;
 
 class ClientInformation extends Model
 {
-    use HasFactory;
-    use SoftDeletes;
+    use HasFactory, SoftDeletes;
 
     protected $guarded  = [];
     protected $dates    = ['deleted_at'];

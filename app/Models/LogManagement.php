@@ -12,7 +12,6 @@ class LogManagement extends Model
     use HasFactory;
 
     protected $casts = [
-        'id'            => 'encrypted',
         'ip'            => 'encrypted',
         'data_id'       => 'encrypted',
         'file_name'     => 'encrypted',
@@ -20,7 +19,6 @@ class LogManagement extends Model
         'url'           => 'encrypted',
         'latitude'      => 'encrypted',
         'longitude'     => 'encrypted',
-        'user_input'    => 'encrypted',
     ];
 
     public static function store($log_data, $log_detail) {
@@ -41,8 +39,6 @@ class LogManagement extends Model
 
         if(Auth::check()) {
             $data->user_input = Auth::id();
-        } else {
-            $data->user_input = $log_data->ip;
         }
 
         $data->save();
